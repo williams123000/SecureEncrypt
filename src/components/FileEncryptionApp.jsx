@@ -22,7 +22,7 @@ export default function FileEncryptionApp() {
     const { user, signOut } = useAuth();
     const userId = user?.id;
 
-    console.log('userId', userId);
+    //console.log('userId', userId);
 
     const handleSignOut = async () => {
         try {
@@ -61,6 +61,11 @@ export default function FileEncryptionApp() {
 
     const handleFileChange = (e) => {
         if (e.target.files[0]) {
+            if (e.target.files[0].size > 50 * 1024 * 1024) {
+                setStatus('El archivo es demasiado grande. El tamaño máximo permitido es de 50 MB.');
+                return;
+            }
+
             setFile(e.target.files[0]);
             setEncryptedFile(null);
             setStatus('');
@@ -85,6 +90,11 @@ export default function FileEncryptionApp() {
     const encryptFile = async () => {
         if (!file || !password) {
             setStatus('Por favor selecciona un archivo y establece una contraseña.');
+            return;
+        }
+        //Si tiene extension .encrypted, no lo encripta
+        if (file.name.endsWith('.encrypted')) {
+            setStatus('El archivo ya está encriptado. ' + file.name);
             return;
         }
 
@@ -135,6 +145,11 @@ export default function FileEncryptionApp() {
     const decryptFile = async () => {
         if (!file || !password) {
             setStatus('Por favor selecciona un archivo encriptado y proporciona la contraseña.');
+            return;
+        }
+        //Si no tiene extension .encrypted, no lo desencripta
+        if (!file.name.endsWith('.encrypted')) {
+            setStatus('El archivo no está encriptado. ' + file.name);
             return;
         }
 
@@ -199,6 +214,12 @@ export default function FileEncryptionApp() {
     };
 
     const uploadToSupabase = async () => {
+        // Extraer los archivos que estan en la bd para no guardar el mismo archivo
+        const files = savedFiles.map((file) => file.file_name);
+        if (files.includes(encryptedFile.name)) {
+            setStatus('El archivo ya está almacenado en tu servidor.');
+            return;
+        }
         if (!encryptedFile) {
             setStatus('No hay archivo encriptado para almacenar.');
             return;
