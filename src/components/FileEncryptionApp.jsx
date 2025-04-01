@@ -319,7 +319,12 @@ export default function FileEncryptionApp() {
                     </div>
                     <button
                         onClick={handleSignOut}
-                        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700
+                        focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-white
+                        disabled:opacity-50 disabled:cursor-not-allowed
+                        
+                        "
+                        
                     >
                         Cerrar sesión
                     </button>
@@ -454,7 +459,7 @@ export default function FileEncryptionApp() {
                                 {isLoading ? (
                                     <p className="text-gray-500 text-center py-4">Cargando archivos...</p>
                                 ) : savedFiles.length > 0 ? (
-                                    <div className="border rounded-md overflow-hidden">
+                                    <div className="overflow-x-auto border rounded-md">
                                         <table className="min-w-full divide-y divide-gray-200">
                                             <thead className="bg-gray-50">
                                                 <tr>
@@ -467,7 +472,7 @@ export default function FileEncryptionApp() {
                                             <tbody className="bg-white divide-y divide-gray-200">
                                                 {savedFiles.map((file) => (
                                                     <tr key={file.id}>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                        <td className="px-6 py-4 text-sm font-medium text-gray-900 break-words max-w-xs">
                                                             {file.file_name}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
