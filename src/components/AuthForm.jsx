@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; // Añadir useRouter
 import { useAuth } from '../lib/auth-context';
 import { Mail, Lock, UserPlus, Loader2 } from 'lucide-react';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function AuthForm() {
   const [email, setEmail] = useState('');
@@ -23,14 +25,14 @@ export default function AuthForm() {
       if (isRegistering) {
         const { data, error } = await signUp(email, password);
         if (error) throw error;
-        setMessage('Registro exitoso. Por favor, revisa tu correo para confirmar.');
+        toast.success('Registro exitoso. Por favor verifica tu correo electrónico.');
       } else {
         const { data, error } = await signIn(email, password);
         if (error) throw error;
-        setMessage('Inicio de sesión exitoso.');
+        toast.success('Inicio de sesión exitoso.');
       }
     } catch (error) {
-      setMessage(`Error: ${error.message}`);
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -45,6 +47,7 @@ export default function AuthForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
