@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../lib/auth-context';
 import { Mail, Lock, UserPlus, Loader2 } from 'lucide-react';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function AuthForm() {
   const [email, setEmail] = useState('');
@@ -13,6 +14,7 @@ export default function AuthForm() {
   const [message, setMessage] = useState('');
   const { signIn, signUp, user } = useAuth();
   const router = useRouter();
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,14 +25,14 @@ export default function AuthForm() {
       if (isRegistering) {
         const { data, error } = await signUp(email, password);
         if (error) throw error;
-        setMessage('Registro exitoso. Por favor, revisa tu correo para confirmar.');
+        toast.success('Registro exitoso. Por favor verifica tu correo electrónico.');
       } else {
         const { data, error } = await signIn(email, password);
         if (error) throw error;
-        setMessage('Inicio de sesión exitoso.');
+        toast.success('Inicio de sesión exitoso.');
       }
     } catch (error) {
-      setMessage(`Error: ${error.message}`);
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -44,6 +46,7 @@ export default function AuthForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200 py-12 px-4 sm:px-6 lg:px-8">
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="w-full max-w-4xl flex flex-col md:flex-row items-center justify-center">
         {/* Formulario */}
         <div className="w-full md:w-1/2 max-w-md space-y-8 p-6 md:p-8 bg-white md:shadow-lg md:rounded-lg order-1">
