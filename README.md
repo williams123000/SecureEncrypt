@@ -164,19 +164,19 @@ Ruta: `DELETE /api/files/[fileId]`
 
 ## 📸 Capturas de Pantalla
 <p align="center">
-  <img src="https://github.com/williams123000/SecureEncrypt/assets/images/login.png" width="600" height="auto">
+  <img src="https://github.com/williams123000/SecureEncrypt/blob/main/src/assets/images/login.png" width="600" height="auto">
 </p>
 
 <p align="center">
-  <img src="https://github.com/williams123000/SecureEncrypt/assets/images/register.png" width="600" height="auto">
+  <img src="htthttps://github.com/williams123000/SecureEncrypt/blob/main/src/assets/images/register.png" width="600" height="auto">
 </p>
 
 <p align="center">
-  <img src="https://github.com/williams123000/SecureEncrypt/assets/images/home1.png" width="600" height="auto">
+  <img src="https://github.com/williams123000/SecureEncrypt/blob/main/src/assets/images/home1.png" width="600" height="auto">
 </p>
 
 <p align="center">
-  <img src="https://github.com/williams123000/SecureEncrypt/assets/images/home2.png" width="600" height="auto">
+  <img src="https://github.com/williams123000/SecureEncrypt/blob/main/src/assets/images/home2.png" width="600" height="auto">
 </p>
 --- 
 ## 🧑‍💻 Autores
