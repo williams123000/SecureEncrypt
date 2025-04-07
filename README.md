@@ -191,4 +191,4 @@ Ruta: `DELETE /api/files/[fileId]`
 
 ## 📝 Licencia
 
-Este proyecto está bajo la licencia MIT.
+Este proyecto está bajo la [licencia MIT](./LICENSE).
