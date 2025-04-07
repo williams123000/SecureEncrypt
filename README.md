@@ -1,36 +1,193 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# 🔐 SecureEncrypt
 
-First, run the development server:
+  
+
+Una aplicación construida con **Next.js** y **Supabase** que permite a los usuarios autenticarse, subir archivos cifrados, descargarlos con enlaces firmados, y eliminarlos de forma segura.
+
+  
+
+## 🚀 Características
+
+  
+
+- 📂 Subida de archivos cifrados al almacenamiento de Supabase
+
+- 🔒 Autenticación de usuarios (registro, login, logout)
+
+- 📥 Generación de enlaces temporales para descargas seguras
+
+- 🗑️ Eliminación de archivos con control de acceso
+
+- 📃 Listado de archivos por usuario
+
+- 🧠 Arquitectura modular con API Routes y Supabase como backend
+
+  
+
+---
+
+  
+
+## 🧱 Tecnologías
+
+  
+
+- [Next.js](https://nextjs.org/)
+
+- [Supabase](https://supabase.com/)
+
+- [JavaScript (ES6+)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
+- [Supabase Auth](https://supabase.com/docs/guides/auth)
+
+- [Supabase Storage](https://supabase.com/docs/guides/storage)
+
+  
+
+---
+
+  
+
+## 📦 Instalación
+
+  
+
+1.  **Clona el repositorio**
+
+  
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+git  clone  https://github.com/tu-usuario/file-encryption-app.git
+
+cd  file-encryption-app
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2.  **Instala dependencias**
+  
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+3.  **Crea un archivo `.env.local`** con tus claves de Supabase:
+ ```bash
+NEXT_PUBLIC_SUPABASE_URL=https://<tu-url>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<tu-anon-key>`
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4.  **Ejecuta la app**
+```bash
+npm run dev
+```
+---
 
-## Learn More
+## 🔐 Autenticación
+La app incluye un sistema de autenticación con:
 
-To learn more about Next.js, take a look at the following resources:
+-   Registro de usuario
+    
+-   Inicio de sesión
+    
+-   Cierre de sesión
+    
+-   Contexto global de autenticación (`AuthContext`)
+    
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> Autenticación gestionada a través de Supabase Auth y el hook `useAuth`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
+## 📁 Funcionalidad de Archivos
+### ➕ Subida
 
-## Deploy on Vercel
+Ruta: `POST /api/upload`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-   Verifica si se recibió un archivo
+    
+-   Lo sube al bucket `encrypted-files`
+    
+-   Registra la metadata en la tabla `encrypted_files`
+    
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 📃 Listado
+
+Ruta: `GET /api/files`
+
+-   Verifica JWT del usuario
+    
+-   Devuelve archivos ordenados por fecha de subida
+    
+
+### 📥 Descarga
+
+Ruta: `GET /api/download/[fileId]?share=true|false`
+
+-   Si `share=true`, permite descarga sin autenticación
+    
+-   Genera una URL firmada de Supabase válida por 1 hora
+    
+
+### 🗑️ Eliminación
+
+Ruta: `DELETE /api/files/[fileId]`
+
+-   Requiere autenticación
+    
+-   Verifica si el archivo pertenece al usuario
+    
+-   Lo elimina del bucket y de la base de datos
+
+---
+
+## 🧠 Arquitectura del Código
+```bash
+├── app
+│   └── api
+│       ├── files
+│       │   ├── [fileId]         # DELETE (eliminación individual)
+│       │   └── route.js         # GET (listado de archivos)
+│       ├── download
+│       │   └── [fileId]         # GET (descarga con enlace firmado)
+│       └── upload
+│           └── route.js         # POST (subida de archivo)
+├── components
+│   ├── AuthForm.jsx             # Formulario de autenticación
+│   └── FileEncryptionApp.jsx    # Interfaz de usuario principal
+├── lib
+│   └── supabase.js              # Cliente de Supabase
+│   └── AuthContext.jsx          # Contexto global de autenticación
+└── pages
+    └── page.js                  # Página principal
+```
+
+---
+
+## 📸 Capturas de Pantalla
+<p align="center">
+  <img src="https://github.com/williams123000/SecureEncrypt/assets/images/login.png" width="600" height="auto">
+</p>
+
+<p align="center">
+  <img src="https://github.com/williams123000/SecureEncrypt/assets/images/register.png" width="600" height="auto">
+</p>
+
+<p align="center">
+  <img src="https://github.com/williams123000/SecureEncrypt/assets/images/home1.png" width="600" height="auto">
+</p>
+
+<p align="center">
+  <img src="https://github.com/williams123000/SecureEncrypt/assets/images/home2.png" width="600" height="auto">
+</p>
+--- 
+## 🧑‍💻 Autores
+
+**Williams Chan**
+[GitHub](https://github.com/williams123000) · [LinkedIn](https://www.linkedin.com/in/williams-chan-pescador-998ba4302/)
+
+**Jorge Octavio**  
+
+
+---
+## 📝 Licencia
+
+Este proyecto está bajo la licencia MIT.

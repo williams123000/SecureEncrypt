@@ -1,3 +1,4 @@
+// app/api/download/[fileId]/route.js
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
